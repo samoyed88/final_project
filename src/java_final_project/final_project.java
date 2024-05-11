@@ -34,8 +34,16 @@ public class final_project {
 			poker[i]=new ArrayList<Integer>();
 		}
 		creatpoker(poker);
+		String input;
+		int players;
 		List<player> numplayer = new ArrayList<>();
+		//開始遊戲
+		do {
+		System.out.println("21點遊戲，請輸入start開始遊戲");
+		input=sc.next().toLowerCase();
+		}while(!(input.equalsIgnoreCase("start")));
 		
+				
 		sc.close();
 	}
 	public static void creatpoker(ArrayList<Integer>[] poker){
