@@ -56,7 +56,39 @@ public class final_project {
 		for(int i=0;i<players;i++) {
 			numplayer.add(new player());
 		}
-		
+		//第一把遊戲
+		System.out.println("第一輪點數");
+		drawcard(numplayer,poker);
+		for(int i=0;i<numplayer.size();i++) {
+			System.out.println(numplayer.get(i).getnum());
+		}
+		System.out.println("第二輪點數");
+		drawcard(numplayer,poker);
+		for(int i=0;i<numplayer.size();i++) {
+			System.out.println(numplayer.get(i).getnum());
+		}
+		int t=0,count=3;
+		do{
+			System.out.println("第"+(count++)+"輪點數");
+			for(int i=0;i<numplayer.size();i++) {
+				System.out.println("玩家"+(i+1)+"目前點數為"+numplayer.get(i).getnum());
+				System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
+					do {
+						input=sc.next();
+						if(input.equalsIgnoreCase("t")) {
+							numplayer.get(i).numadd(drawcard(poker));
+							System.out.println("已抽牌");
+							break;
+						}
+						else if(input.equalsIgnoreCase("f")) {
+							System.out.println("已跳過");
+							t++;
+							break;
+						}
+						System.out.println("輸入錯誤，請重新輸入");
+					}while(true);
+			}
+		}while(!(t>numplayer.size()));
 				
 		sc.close();
 	}
