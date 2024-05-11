@@ -1,7 +1,28 @@
 package java_final_project;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+class player{
+	private int num,score;
+	player(){
+		this.num=0;
+		this.score=10;
+	}
+	void numadd(int n){
+		this.num+=n;
+	}
+	void numreturn() {
+		this.num=0;
+	}
+	int getnum() {
+		return this.num;
+	}
+	void scoreadd(int n) {
+		this.score+=n;
+	}
+	int scoreget() {
+		return this.score;
+	}
+}
 
 public class final_project {
 
@@ -13,8 +34,9 @@ public class final_project {
 			poker[i]=new ArrayList<Integer>();
 		}
 		creatpoker(poker);
+		List<player> numplayer = new ArrayList<>();
 		
-
+		sc.close();
 	}
 	public static void creatpoker(ArrayList<Integer>[] poker){
 		int n=1;
