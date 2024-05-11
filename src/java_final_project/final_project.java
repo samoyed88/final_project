@@ -72,5 +72,26 @@ public class final_project {
 			else continue;
 		}
 	}
+	//發牌一輪
+	public static void drawcard(List<player> numplayer,ArrayList<Integer>[] poker){
+		//隨機抽取
+		int card;
+		for(int i=0;i<numplayer.size();i++) {
+			int randomcolor=(int)(Math.random()*poker.length);
+			int randomnum=(int)(Math.random()*poker[randomcolor].size());
+		card=poker[randomcolor].get(randomnum);
+		numplayer.get(i).numadd(card);
+		poker[randomcolor].remove(randomnum);
+		}
+	}
+	//抽單張
+	public static int drawcard(ArrayList<Integer>[] poker) {
+		int card;
+		int randomcolor=(int)(Math.random()*poker.length);
+		int randomnum=(int)(Math.random()*poker[randomcolor].size());
+		card=poker[randomcolor].get(randomnum);
+		poker[randomcolor].remove(randomnum);
+		return card;
+	}
 
 }
