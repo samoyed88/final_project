@@ -39,13 +39,28 @@ public class final_project {
 		List<player> numplayer = new ArrayList<>();
 		//開始遊戲
 		do {
-		System.out.println("21點遊戲，請輸入start開始遊戲");
-		input=sc.next().toLowerCase();
+			System.out.println("21點遊戲，請輸入start開始遊戲");
+			input=sc.next().toLowerCase();
 		}while(!(input.equalsIgnoreCase("start")));
+		//遊玩人數設定
+		System.out.println("請輸入遊玩人數(1-4)");
+		input=sc.next();
+		while(!(input.matches("[1-4]"))) {
+			System.out.println("輸入錯誤請重新輸入");
+			System.out.println("請輸入遊玩人數");
+			input=sc.next(); 
+		}
+		players=Integer.parseInt(input);
+		if(players<4) {players--;numplayer.add(new player());} // 添加 player1 (player1為莊家}
+		//建立玩家物件
+		for(int i=0;i<players;i++) {
+			numplayer.add(new player());
+		}
 		
 				
 		sc.close();
 	}
+	
 	public static void creatpoker(ArrayList<Integer>[] poker){
 		int n=1;
 		for(int i=0;i<13;i++) {
