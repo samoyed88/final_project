@@ -92,16 +92,8 @@ public class final_project {
 		//第一把遊戲
 		System.out.println("第一輪點數");
 		drawcard(numplayer,poker);
-		for(int i=0;i<numplayer.size();i++) {
-			System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
-			numplayer.get(i).numadd();
-		}
 		System.out.println("第二輪點數");
 		drawcard(numplayer,poker);
-		for(int i=0;i<numplayer.size();i++) {
-			System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
-			numplayer.get(i).numadd();
-		}
 		int t=0,count=3;
 		do{
 			System.out.println("第"+(count++)+"輪點數");
@@ -112,9 +104,6 @@ public class final_project {
 						input=sc.next();
 						if(input.equalsIgnoreCase("t")) {
 							drawcard(numplayer,poker,i);
-							System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
-							numplayer.get(i).numadd();
-							System.out.println("已抽牌");
 							break;
 						}
 						else if(input.equalsIgnoreCase("f")) {
@@ -126,7 +115,6 @@ public class final_project {
 					}while(true);
 			}
 		}while(!(t>numplayer.size()));
-				
 		sc.close();
 	}
 	//poker[i]陣列的i=0為梅花 i=1為菱形 i=2為紅心 i=3為黑桃 各有1~13
@@ -151,6 +139,8 @@ public class final_project {
 		numplayer.get(i).setcard(card);
 		numplayer.get(i).setcolor(randomcolor);
 		poker[randomcolor].remove(randomnum);
+		System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
+		numplayer.get(i).numadd();
 		}
 	}
 	//抽單張
@@ -162,5 +152,8 @@ public class final_project {
 		poker[randomcolor].remove(randomnum);
 		numplayer.get(i).setcard(card);
 		numplayer.get(i).setcolor(randomcolor);
+		System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
+		numplayer.get(i).numadd();
+		System.out.println("已抽牌");
 	}
 }
