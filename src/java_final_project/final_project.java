@@ -2,26 +2,59 @@ package java_final_project;
 import java.util.*;
 
 class player{
-	private int num,score;
+	private int num,score,color,card;
 	player(){
 		this.num=0;
 		this.score=10;
+		this.color=0;
+		this.card=0;
 	}
-	void numadd(int n){
-		this.num+=n;
+	//點數累加(單局)  **特例:A為1or11
+	void numadd(){
+		if(this.num>10)this.num+=10;
+		else this.num+=this.card;
 	}
+	//點數歸零
 	void numreturn() {
 		this.num=0;
 	}
+	//主程式獲取點數
 	int getnum() {
 		return this.num;
 	}
+	//分數增加
 	void scoreadd(int n) {
 		this.score+=n;
 	}
+	//主程式獲取分數
 	int scoreget() {
 		return this.score;
 	}
+	//卡牌花色
+	void coloradd(int c) {
+		this.color=c;
+	}
+	//獲取花色
+	String getcolor() {
+		switch(this.color) {
+		case 1:
+			return "C";
+		case 2:
+			return "D";
+		case 3:
+			return "H";
+		case 4:
+			return "S";
+		}
+		return "Error";
+	}
+	void cardadd(int c) {
+		this.card=c;
+	}
+	int getcard() {
+		return this.card;
+	}
+	
 }
 
 public class final_project {
