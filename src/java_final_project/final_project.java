@@ -31,24 +31,24 @@ class player{
 		return this.score;
 	}
 	//卡牌花色
-	void coloradd(int c) {
+	void setcolor(int c) {
 		this.color=c;
 	}
 	//獲取花色
 	String getcolor() {
 		switch(this.color) {
-		case 1:
+		case 0:
 			return "C";
-		case 2:
+		case 1:
 			return "D";
-		case 3:
+		case 2:
 			return "H";
-		case 4:
+		case 3:
 			return "S";
 		}
 		return "Error";
 	}
-	void cardadd(int c) {
+	void setcard(int c) {
 		this.card=c;
 	}
 	int getcard() {
@@ -93,12 +93,14 @@ public class final_project {
 		System.out.println("第一輪點數");
 		drawcard(numplayer,poker);
 		for(int i=0;i<numplayer.size();i++) {
-			System.out.println(numplayer.get(i).getnum());
+			System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
+			numplayer.get(i).numadd();
 		}
 		System.out.println("第二輪點數");
 		drawcard(numplayer,poker);
 		for(int i=0;i<numplayer.size();i++) {
-			System.out.println(numplayer.get(i).getnum());
+			System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
+			numplayer.get(i).numadd();
 		}
 		int t=0,count=3;
 		do{
@@ -109,7 +111,9 @@ public class final_project {
 					do {
 						input=sc.next();
 						if(input.equalsIgnoreCase("t")) {
-							numplayer.get(i).numadd(drawcard(poker));
+							drawcard(numplayer,poker,i);
+							System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
+							numplayer.get(i).numadd();
 							System.out.println("已抽牌");
 							break;
 						}
@@ -144,17 +148,19 @@ public class final_project {
 			int randomcolor=(int)(Math.random()*poker.length);
 			int randomnum=(int)(Math.random()*poker[randomcolor].size());
 		card=poker[randomcolor].get(randomnum);
-		numplayer.get(i).numadd(card);
+		numplayer.get(i).setcard(card);
+		numplayer.get(i).setcolor(randomcolor);
 		poker[randomcolor].remove(randomnum);
 		}
 	}
 	//抽單張
-	public static int drawcard(ArrayList<Integer>[] poker) {
+	public static void drawcard(List<player> numplayer,ArrayList<Integer>[] poker,int i) {
 		int card;
 		int randomcolor=(int)(Math.random()*poker.length);
 		int randomnum=(int)(Math.random()*poker[randomcolor].size());
 		card=poker[randomcolor].get(randomnum);
 		poker[randomcolor].remove(randomnum);
-		return card;
+		numplayer.get(i).setcard(card);
+		numplayer.get(i).setcolor(randomcolor);
 	}
 }
