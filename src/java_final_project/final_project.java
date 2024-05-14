@@ -92,7 +92,7 @@ public class final_project {
 				
 		sc.close();
 	}
-	
+	//poker[i]陣列的i=0為梅花 i=1為菱形 i=2為紅心 i=3為黑桃 各有1~13
 	public static void creatpoker(ArrayList<Integer>[] poker){
 		int n=1;
 		for(int i=0;i<13;i++) {
@@ -100,8 +100,7 @@ public class final_project {
 			poker[1].add(n);
 			poker[2].add(n);
 			poker[3].add(n);
-			if(n<10)n++;
-			else continue;
+			n++;
 		}
 	}
 	//發牌一輪
@@ -125,5 +124,4 @@ public class final_project {
 		poker[randomcolor].remove(randomnum);
 		return card;
 	}
-
 }
