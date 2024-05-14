@@ -89,21 +89,24 @@ public class final_project {
 			numplayer.add(new player());
 		}
 		//莊家抽牌
+		System.out.println("第一張牌：");
 		drawcard(numplayer,poker,0);
+		System.out.println("第二張牌：");
 		drawcard(numplayer,poker,0);
 		if(numplayer.get(0).getnum()<=15) {
+			System.out.println("第三張牌：");
 			drawcard(numplayer,poker,0);
 		}
-		System.out.println(numplayer.get(0).getnum());
-		//第一把遊戲
-		System.out.println("第一輪點數");
+		System.out.println("莊家點數:"+numplayer.get(0).getnum());
+		//玩家抽牌
+		System.out.println("第一輪卡牌");
 		drawcard(numplayer,poker);
-		System.out.println("第二輪點數");
+		System.out.println("第二輪卡牌");
 		drawcard(numplayer,poker);
 		int t=0,count=3;
 		
 		do{
-			System.out.println("第"+(count++)+"輪點數");
+			System.out.println("第"+(count++)+"輪卡牌");
 			for(int i=1;i<numplayer.size();i++) {
 				System.out.println("玩家"+i+"目前點數為"+numplayer.get(i).getnum());
 				System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
@@ -146,6 +149,7 @@ public class final_project {
 		numplayer.get(i).setcard(card);
 		numplayer.get(i).setcolor(randomcolor);
 		poker[randomcolor].remove(randomnum);
+		System.out.print("第"+i+"位玩家：");
 		System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
 		numplayer.get(i).numadd();
 		}
@@ -161,6 +165,5 @@ public class final_project {
 		numplayer.get(i).setcolor(randomcolor);
 		System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
 		numplayer.get(i).numadd();
-		System.out.println("已抽牌");
 	}
 }
