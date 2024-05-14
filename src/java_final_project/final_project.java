@@ -84,21 +84,28 @@ public class final_project {
 			input=sc.next(); 
 		}
 		players=Integer.parseInt(input);
-		if(players<4) {players--;numplayer.add(new player());} // 添加 player1 (player1為莊家}
-		//建立玩家物件
-		for(int i=0;i<players;i++) {
+		//建立玩家物件 numplayer.get(0)為莊家
+		for(int i=0;i<=players;i++) {
 			numplayer.add(new player());
 		}
+		//莊家抽牌
+		drawcard(numplayer,poker,0);
+		drawcard(numplayer,poker,0);
+		if(numplayer.get(0).getnum()<=15) {
+			drawcard(numplayer,poker,0);
+		}
+		System.out.println(numplayer.get(0).getnum());
 		//第一把遊戲
 		System.out.println("第一輪點數");
 		drawcard(numplayer,poker);
 		System.out.println("第二輪點數");
 		drawcard(numplayer,poker);
 		int t=0,count=3;
+		
 		do{
 			System.out.println("第"+(count++)+"輪點數");
-			for(int i=0;i<numplayer.size();i++) {
-				System.out.println("玩家"+(i+1)+"目前點數為"+numplayer.get(i).getnum());
+			for(int i=1;i<numplayer.size();i++) {
+				System.out.println("玩家"+i+"目前點數為"+numplayer.get(i).getnum());
 				System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
 					do {
 						input=sc.next();
@@ -132,7 +139,7 @@ public class final_project {
 	public static void drawcard(List<player> numplayer,ArrayList<Integer>[] poker){
 		//隨機抽取
 		int card;
-		for(int i=0;i<numplayer.size();i++) {
+		for(int i=1;i<numplayer.size();i++) {
 			int randomcolor=(int)(Math.random()*poker.length);
 			int randomnum=(int)(Math.random()*poker[randomcolor].size());
 		card=poker[randomcolor].get(randomnum);
