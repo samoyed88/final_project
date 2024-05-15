@@ -11,7 +11,7 @@ class player{
 	}
 	//點數累加(單局)  **特例:A為1or11
 	void numadd(){
-		if(this.num>10)this.num+=10;
+		if(this.card>10)this.num+=10;
 		else this.num+=this.card;
 	}
 	//點數歸零
@@ -22,12 +22,18 @@ class player{
 	int getnum() {
 		return this.num;
 	}
-	//分數增加
-	void scoreadd(int n) {
-		this.score+=n;
+	//分數計算(傳入莊家點數)
+	void scorecal(int n) {
+		if(this.num<=21 && this.num>n) {
+			this.score+=2;
+		}
+		else if(this.num<=21 && this.num==n) {
+			this.score+=1;
+		}
+		else this.score-=2;
 	}
 	//主程式獲取分數
-	int scoreget() {
+	int getscore() {
 		return this.score;
 	}
 	//卡牌花色
@@ -54,7 +60,6 @@ class player{
 	int getcard() {
 		return this.card;
 	}
-	
 }
 
 public class final_project {
@@ -103,28 +108,26 @@ public class final_project {
 		drawcard(numplayer,poker);
 		System.out.println("第二輪卡牌");
 		drawcard(numplayer,poker);
-		int t=0,count=3;
-		
-		do{
-			System.out.println("第"+(count++)+"輪卡牌");
-			for(int i=1;i<numplayer.size();i++) {
+		for(int i=1;i<numplayer.size();i++) {
+			do {
+				if(numplayer.get(i).getnum()>21) {
+					System.out.println("爆掉了!");
+					break;
+				}
 				System.out.println("玩家"+i+"目前點數為"+numplayer.get(i).getnum());
 				System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
-					do {
-						input=sc.next();
-						if(input.equalsIgnoreCase("t")) {
-							drawcard(numplayer,poker,i);
-							break;
-						}
-						else if(input.equalsIgnoreCase("f")) {
-							System.out.println("已跳過");
-							t++;
-							break;
-						}
-						System.out.println("輸入錯誤，請重新輸入");
-					}while(true);
-			}
-		}while(!(t>numplayer.size()));
+				input=sc.next();
+				if(input.equalsIgnoreCase("t")) {
+					drawcard(numplayer,poker,i);
+				}
+				else if(input.equalsIgnoreCase("f")) {
+					System.out.println("已跳過");			
+				}
+				else System.out.println("輸入錯誤，請重新輸入");
+			}while(!input.equalsIgnoreCase("f"));
+			numplayer.get(i).scorecal(numplayer.get(0).getnum());
+			System.out.println("目前分數為："+numplayer.get(i).getscore());
+		}
 		sc.close();
 	}
 	//poker[i]陣列的i=0為梅花 i=1為菱形 i=2為紅心 i=3為黑桃 各有1~13
