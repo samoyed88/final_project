@@ -13,6 +13,10 @@ class player{
 	void numadd(){
 		if(this.card>10)this.num+=10;
 		else this.num+=this.card;
+		if(this.card==1) {
+			this.num+=11;
+			if(this.num>21)this.num-=10;
+		}
 	}
 	//點數歸零
 	void numreturn() {
@@ -29,6 +33,9 @@ class player{
 		}
 		else if(this.num<=21 && this.num==n) {
 			this.score+=1;
+		}
+		else if(this.num<=21 && n>21) {
+			this.score+=2;
 		}
 		else this.score-=2;
 	}
@@ -93,19 +100,21 @@ public class final_project {
 		for(int i=0;i<=players;i++) {
 			numplayer.add(new player());
 		}
-		//莊家抽牌
-		System.out.println("第一張牌：");
-		drawcard(numplayer,poker,0);
-		System.out.println("第二張牌：");
-		drawcard(numplayer,poker,0);
-		if(numplayer.get(0).getnum()<=15) {
-			System.out.println("第三張牌：");
-			drawcard(numplayer,poker,0);
-		}
-		System.out.println("莊家點數:"+numplayer.get(0).getnum());
-		//玩家抽牌
+		
 		int count0=1,count1=3;
 		do {
+			//莊家抽牌
+			System.out.println("第1張牌：");
+			drawcard(numplayer,poker,0);
+			System.out.println("第2張牌：");
+			drawcard(numplayer,poker,0);
+			int n=3;
+			while(numplayer.get(0).getnum()<=15){
+				System.out.println("第"+(n++)+"張牌：");
+				drawcard(numplayer,poker,0);
+			}
+			System.out.println("莊家點數:"+numplayer.get(0).getnum());
+			//玩家抽牌
 			count1=1;
 			System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
 			drawcard(numplayer,poker);
@@ -116,7 +125,7 @@ public class final_project {
 				//System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
 				do {
 					if(numplayer.get(i).getnum()>21) {
-						System.out.println("爆掉了!");
+						System.out.println("玩家"+i+"爆掉了!");
 						break;
 					}
 					System.out.println("玩家"+i+"目前點數為"+numplayer.get(i).getnum());
@@ -137,7 +146,7 @@ public class final_project {
 				numplayer.get(i).numreturn();
 			}
 			count0++;
-		}while(!(poker[0].size()==0 && poker[1].size()==0 && poker[2].size()==0 && poker[3].size()==0));
+		}while(!poker[0].isEmpty());
 		
 		
 		sc.close();
