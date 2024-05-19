@@ -100,26 +100,35 @@ public class final_project {
 		for(int i=0;i<=players;i++) {
 			numplayer.add(new player());
 		}
-		
 		int count0=1,count1=3;
 		do {
 			//莊家抽牌
-			System.out.println("第1張牌：");
-			drawcard(numplayer,poker,0);
-			System.out.println("第2張牌：");
-			drawcard(numplayer,poker,0);
+			System.out.println("莊家第1張牌：");
+			if(!drawcard(numplayer,poker,0)) {
+				break;
+			}
+			System.out.println("莊家第2張牌：");
+			if(!drawcard(numplayer,poker,0)) {
+				break;
+			}
 			int n=3;
 			while(numplayer.get(0).getnum()<=15){
 				System.out.println("第"+(n++)+"張牌：");
-				drawcard(numplayer,poker,0);
+				if(!drawcard(numplayer,poker,0)) {
+					break;
+				}
 			}
 			System.out.println("莊家點數:"+numplayer.get(0).getnum());
 			//玩家抽牌
 			count1=1;
 			System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
-			drawcard(numplayer,poker);
+			if(!drawcard(numplayer,poker)) {
+				break;
+			}
 			System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
-			drawcard(numplayer,poker);
+			if(!drawcard(numplayer,poker)) {
+				break;
+			}
 			
 			for(int i=1;i<numplayer.size();i++) {
 				//System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
@@ -132,7 +141,9 @@ public class final_project {
 					System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
 					input=sc.next();
 					if(input.equalsIgnoreCase("t")) {
-						drawcard(numplayer,poker,i);
+						if(!drawcard(numplayer,poker,i)) {
+							break;
+						}
 					}
 					else if(input.equalsIgnoreCase("f")) {
 						System.out.println("已跳過");			
@@ -146,7 +157,13 @@ public class final_project {
 				numplayer.get(i).numreturn();
 			}
 			count0++;
-		}while(!poker[0].isEmpty());
+		}while(!(poker[0].isEmpty() && poker[1].isEmpty() && poker[2].isEmpty() && poker[3].isEmpty()));
+		System.out.println("沒牌了~遊戲結束，玩家分數如下：");
+		for(int i=1;i<numplayer.size();i++) {
+			System.out.println("玩家"+i+":"+numplayer.get(i).getscore());
+		}
+		
+		
 		
 		
 		sc.close();
@@ -163,12 +180,16 @@ public class final_project {
 		}
 	}
 	//發牌一輪
-	public static void drawcard(List<player> numplayer,ArrayList<Integer>[] poker){
+	public static boolean drawcard(List<player> numplayer,ArrayList<Integer>[] poker){
 		//隨機抽取
-		int card;
+		int card,count=0;
 		for(int i=1;i<numplayer.size();i++) {
 			int randomcolor=(int)(Math.random()*poker.length);
 			int randomnum=(int)(Math.random()*poker[randomcolor].size());
+			while(poker[randomcolor].isEmpty()) {
+				if(count>3)return false;
+				randomcolor=count++;
+			}
 			card=poker[randomcolor].get(randomnum);
 			numplayer.get(i).setcard(card);
 			numplayer.get(i).setcolor(randomcolor);
@@ -177,17 +198,23 @@ public class final_project {
 			System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
 			numplayer.get(i).numadd();
 		}
+		return true;
 	}
 	//抽單張
-	public static void drawcard(List<player> numplayer,ArrayList<Integer>[] poker,int i) {
-		int card;
+	public static boolean drawcard(List<player> numplayer,ArrayList<Integer>[] poker,int i) {
+		int card,count=0;
 		int randomcolor=(int)(Math.random()*poker.length);
 		int randomnum=(int)(Math.random()*poker[randomcolor].size());
+		while(poker[randomcolor].isEmpty()) {
+			randomcolor=count++;
+			if(count>4)return false;
+		}
 		card=poker[randomcolor].get(randomnum);
 		poker[randomcolor].remove(randomnum);
 		numplayer.get(i).setcard(card);
 		numplayer.get(i).setcolor(randomcolor);
 		System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
 		numplayer.get(i).numadd();
+		return true;
 	}
 }
