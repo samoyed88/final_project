@@ -103,44 +103,47 @@ public class final_project {
 		int count0=1,count1=3;
 		do {
 			//莊家抽牌
-			System.out.println("莊家第1張牌：");
+			System.out.print("\r\n莊家第1張牌:");
 			if(!drawcard(numplayer,poker,0)) {
 				break;
 			}
-			System.out.println("莊家第2張牌：");
+			System.out.print("莊家第2張牌：");
 			if(!drawcard(numplayer,poker,0)) {
 				break;
 			}
 			int n=3;
 			while(numplayer.get(0).getnum()<=15){
-				System.out.println("第"+(n++)+"張牌：");
+				System.out.print("莊家第"+(n++)+"張牌：");
 				if(!drawcard(numplayer,poker,0)) {
 					break;
 				}
 			}
+			System.out.println();
 			System.out.println("莊家點數:"+numplayer.get(0).getnum());
+			System.out.println();
 			//玩家抽牌
 			count1=1;
-			System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
+			System.out.println("玩家第"+(count0)+"輪第"+(count1++)+"次抽卡");
 			if(!drawcard(numplayer,poker)) {
 				break;
 			}
-			System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
+			System.out.println("\r\n玩家第"+(count0)+"輪第"+(count1++)+"次抽卡");
 			if(!drawcard(numplayer,poker)) {
 				break;
 			}
 			
 			for(int i=1;i<numplayer.size();i++) {
-				//System.out.println("第"+(count0)+"輪第"+(count1++)+"次抽卡");
 				do {
 					if(numplayer.get(i).getnum()>21) {
 						System.out.println("玩家"+i+"爆掉了!");
 						break;
 					}
-					System.out.println("玩家"+i+"目前點數為"+numplayer.get(i).getnum());
+					System.out.print("\r\n玩家"+i+"目前點數為"+numplayer.get(i).getnum());
+					System.out.println("  莊家為:"+numplayer.get(0).getnum());
 					System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
 					input=sc.next();
 					if(input.equalsIgnoreCase("t")) {
+						System.out.print("此張牌為：");
 						if(!drawcard(numplayer,poker,i)) {
 							break;
 						}
@@ -151,7 +154,7 @@ public class final_project {
 					else System.out.println("輸入錯誤，請重新輸入");
 				}while(!input.equalsIgnoreCase("f"));
 				numplayer.get(i).scorecal(numplayer.get(0).getnum());
-				System.out.println("目前分數為："+numplayer.get(i).getscore());
+				System.out.println("\r\n玩家"+i+"目前分數為："+numplayer.get(i).getscore());
 			}
 			for(int i=0;i<numplayer.size();i++) {
 				numplayer.get(i).numreturn();
