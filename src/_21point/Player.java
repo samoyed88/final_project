@@ -10,12 +10,13 @@ class player{
 	}
 	//點數累加(單局)  **特例:A為1or11
 	void numadd(){
-		if(this.card>10)this.num+=10;
-		else this.num+=this.card;
-		if(this.card==1) {
+		if(card>10)this.num+=10;
+		else if(card==1) {
 			this.num+=11;
-			if(this.num>21)this.num-=10;
+			if(num>21)this.num-=10;
 		}
+		else this.num+=this.card;
+		
 	}
 	//點數歸零
 	void numreturn() {
@@ -27,13 +28,13 @@ class player{
 	}
 	//分數計算(傳入莊家點數)
 	void scorecal(int n) {
-		if(this.num<=21 && this.num>n) {
+		if(num<=21 && num>n) {
 			this.score+=2;
 		}
-		else if(this.num<=21 && this.num==n) {
+		else if(num<=21 && num==n) {
 			this.score+=1;
 		}
-		else if(this.num<=21 && n>21) {
+		else if(num<=21 && n>21) {
 			this.score+=2;
 		}
 		else this.score-=2;
