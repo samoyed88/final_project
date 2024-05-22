@@ -7,10 +7,7 @@ public class final_project {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
 		//使用arrayList建立一副牌
-		ArrayList<Integer>[] poker=new ArrayList[4];
-		for(int i=0;i<4;i++) {
-			poker[i]=new ArrayList<Integer>();
-		}
+		ArrayList<String> poker=new ArrayList<String>();
 		creatpoker(poker);
 		String input;
 		int players;
@@ -26,131 +23,158 @@ public class final_project {
 		while(!(input.matches("[1-4]"))) {
 			System.out.println("輸入錯誤請重新輸入");
 			System.out.println("請輸入遊玩人數");
-			input=sc.next(); 
+			input=sc.next();
 		}
 		players=Integer.parseInt(input);
 		//建立玩家物件 numplayer.get(0)為莊家
 		for(int i=0;i<=players;i++) {
 			numplayer.add(new player());
 		}
-		int count0=1,count1=3;
+		int round=1;//回合數
+		int count=1;//次數
 		do {
-			//莊家抽牌
-			System.out.print("\r\n莊家第1張牌:");
-			if(!drawcard(numplayer,poker,0)) {
-				break;
-			}
-			System.out.print("莊家第2張牌：");
-			if(!drawcard(numplayer,poker,0)) {
-				break;
-			}
-			int n=3;
-			while(numplayer.get(0).getnum()<=15){
-				System.out.print("莊家第"+(n++)+"張牌：");
-				if(!drawcard(numplayer,poker,0)) {
-					break;
+			//第n輪第一次抽牌
+			for(int j=0;j<2;j++) {
+				count=1;
+				System.out.println("第"+(round)+"輪第"+(count++)+"次抽牌");
+				for(int i=1;i<numplayer.size();i++) {
+					System.out.print("第"+i+"位玩家");
+					int num=drawcard(poker);
+					if(num==1) numplayer.get(i).numadd(one());
+					else numplayer.get(i).numadd(num);
 				}
 			}
-			System.out.println();
-			System.out.println("莊家點數:"+numplayer.get(0).getnum());
-			System.out.println();
-			//玩家抽牌
-			count1=1;
-			System.out.println("玩家第"+(count0)+"輪第"+(count1++)+"次抽卡");
-			if(!drawcard(numplayer,poker)) {
-				break;
-			}
-			System.out.println("\r\n玩家第"+(count0)+"輪第"+(count1++)+"次抽卡");
-			if(!drawcard(numplayer,poker)) {
-				break;
-			}
-			
+			//第n輪第3+次抽牌
 			for(int i=1;i<numplayer.size();i++) {
 				do {
 					if(numplayer.get(i).getnum()>21) {
 						System.out.println("玩家"+i+"爆掉了!");
 						break;
 					}
+					//各玩家是否繼續抽牌
 					System.out.print("\r\n玩家"+i+"目前點數為"+numplayer.get(i).getnum());
-					System.out.println("  莊家為:"+numplayer.get(0).getnum());
 					System.out.println("是否繼續抽牌(輸入t抽牌，輸入f不抽牌");
 					input=sc.next();
 					if(input.equalsIgnoreCase("t")) {
-						System.out.print("此張牌為：");
-						if(!drawcard(numplayer,poker,i)) {
-							break;
+						int num=drawcard(poker);
+						if(num==1) {
+							System.out.print("目前點數："+numplayer.get(i).getnum()+"\r\n玩家"+i);
+							numplayer.get(i).numadd(one());
 						}
+						else numplayer.get(i).numadd(num);
 					}
 					else if(input.equalsIgnoreCase("f")) {
-						System.out.println("已跳過");			
+						System.out.println("結束抽牌");
 					}
 					else System.out.println("輸入錯誤，請重新輸入");
 				}while(!input.equalsIgnoreCase("f"));
-				numplayer.get(i).scorecal(numplayer.get(0).getnum());
-				System.out.println("\r\n玩家"+i+"目前分數為："+numplayer.get(i).getscore());
 			}
-			for(int i=0;i<numplayer.size();i++) {
-				numplayer.get(i).numreturn();
+			//莊家抽牌
+			System.out.println();
+			System.out.println("莊家");
+			numplayer.get(0).numadd(drawcard(poker));
+			numplayer.get(0).numadd(drawcard(poker));
+			if(numplayer.get(0).getnum()<15) {
+				numplayer.get(0).numadd(drawcard(poker));
 			}
-			count0++;
-		}while(!(poker[0].isEmpty() && poker[1].isEmpty() && poker[2].isEmpty() && poker[3].isEmpty()));
-		System.out.println("沒牌了~遊戲結束，玩家分數如下：");
-		for(int i=1;i<numplayer.size();i++) {
-			System.out.println("玩家"+i+":"+numplayer.get(i).getscore());
-		}
-		
-		
-		
-		
+			System.out.println("\r\n莊家點數："+numplayer.get(0).getnum());
+			grade(numplayer);
+			round++;
+		}while(!poker.isEmpty());
+		System.out.println();
+		finalscore(numplayer);
 		sc.close();
 	}
 	//poker[i]陣列的i=0為梅花 i=1為菱形 i=2為紅心 i=3為黑桃 各有1~13
-	public static void creatpoker(ArrayList<Integer>[] poker){
-		int n=1;
-		for(int i=0;i<13;i++) {
-			poker[0].add(n);
-			poker[1].add(n);
-			poker[2].add(n);
-			poker[3].add(n);
-			n++;
+	public static void creatpoker(ArrayList<String> poker){
+		for(int i=1;i<=10;i++) {
+			poker.add("C-"+i);
 		}
-	}
-	//發牌一輪
-	public static boolean drawcard(List<player> numplayer,ArrayList<Integer>[] poker){
-		//隨機抽取
-		int card,count=0;
-		for(int i=1;i<numplayer.size();i++) {
-			int randomcolor=(int)(Math.random()*poker.length);
-			int randomnum=(int)(Math.random()*poker[randomcolor].size());
-			while(poker[randomcolor].isEmpty()) {
-				if(count>3)return false;
-				randomcolor=count++;
-			}
-			card=poker[randomcolor].get(randomnum);
-			numplayer.get(i).setcard(card);
-			numplayer.get(i).setcolor(randomcolor);
-			poker[randomcolor].remove(randomnum);
-			System.out.print("第"+i+"位玩家：");
-			System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
-			numplayer.get(i).numadd();
+		poker.add("C-J");
+		poker.add("C-Q");
+		poker.add("C-K");
+		for(int i=1;i<=10;i++) {
+			poker.add("D-"+i);
 		}
-		return true;
+		poker.add("D-J");
+		poker.add("D-Q");
+		poker.add("D-K");
+		for(int i=1;i<=10;i++) {
+			poker.add("H-"+i);
+		}
+		poker.add("H-J");
+		poker.add("H-Q");
+		poker.add("H-K");
+		for(int i=1;i<=10;i++) {
+			poker.add("S-"+i);
+		}
+		poker.add("S-J");
+		poker.add("S-Q");
+		poker.add("S-K");
 	}
+	
 	//抽單張
-	public static boolean drawcard(List<player> numplayer,ArrayList<Integer>[] poker,int i) {
-		int card,count=0;
-		int randomcolor=(int)(Math.random()*poker.length);
-		int randomnum=(int)(Math.random()*poker[randomcolor].size());
-		while(poker[randomcolor].isEmpty()) {
-			randomcolor=count++;
-			if(count>4)return false;
+	public static int drawcard(ArrayList<String> poker) {
+		int random=(int)(Math.random()*poker.size());
+		String card=poker.get(random);
+		System.out.println("抽到:"+card);
+		int num=0;
+		if(card.contains("10")) {
+			num=10;
 		}
-		card=poker[randomcolor].get(randomnum);
-		poker[randomcolor].remove(randomnum);
-		numplayer.get(i).setcard(card);
-		numplayer.get(i).setcolor(randomcolor);
-		System.out.println(numplayer.get(i).getcolor()+""+numplayer.get(i).getcard());
-		numplayer.get(i).numadd();
-		return true;
+		else if(card.charAt(2)=='J') {
+			num=10;
+		}
+		else if(card.charAt(2)=='Q') {
+			num=10;
+		}
+		else if(card.charAt(2)=='K') {
+			num=10;
+		}
+		else num=Integer.parseInt(String.valueOf(card.charAt(2)));
+		poker.remove(random);
+		return num;
+	}
+	
+	//回合結束後分數計算
+	public static void grade(List<player> numplayer) {
+		for(int i=1;i<numplayer.size();i++) {
+			System.out.print("玩家"+i);
+			numplayer.get(i).scorecal(numplayer.get(0).getnum());
+			System.out.println("玩家"+i+"的分數:"+numplayer.get(i).getscore());
+			numplayer.get(i).numreturn();//玩家點數重置
+		}
+		System.out.println();
+		numplayer.get(0).numreturn(); //莊家點數重置
+	}
+	
+	//點數1額外處理
+	public static int one() {
+		Scanner sc=new Scanner(System.in);
+		String input;
+		int num=0;
+		do {
+			System.out.println("抽到1，選擇1請輸入a，選擇11請輸入b");
+			input=sc.next();
+			if(input.equalsIgnoreCase("a")) {
+				num=1;
+			}
+			else if(input.equalsIgnoreCase("b")) {
+				num=11;
+			}
+			else System.out.println("輸入錯誤，請重新輸入");
+		}while(!input.equalsIgnoreCase("a")&&!input.equalsIgnoreCase("b"));
+		return num;
+	}
+	
+	public static void finalscore(List<player> numplayer) {
+		int score=0,who=0;
+		for(int i=1;i<numplayer.size();i++) {
+			if(numplayer.get(i).getscore()>score) {
+				score=numplayer.get(i).getscore();
+				who=i;
+			}
+		}
+		System.out.println("玩家"+who+"是贏家，分數"+score+"分");
 	}
 }
