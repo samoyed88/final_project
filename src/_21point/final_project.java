@@ -32,7 +32,11 @@ public class final_project {
 		}
 		int round=1;//回合數
 		int count=1;//次數
-		do {
+		for(int i=0;i<52;i++) {
+			System.out.println(drawcard(poker)+" ");
+		}
+		
+		outer:do {
 			//第n輪第一次抽牌
 			for(int j=0;j<2;j++) {
 				count=1;
@@ -40,7 +44,11 @@ public class final_project {
 				for(int i=1;i<numplayer.size();i++) {
 					System.out.print("第"+i+"位玩家");
 					int num=drawcard(poker);
-					if(num==1) numplayer.get(i).numadd(one());
+					if(num==0)break outer;
+					else if(num==1) {
+						System.out.print("目前點數："+numplayer.get(i).getnum()+"\r\n玩家"+i);
+						numplayer.get(i).numadd(one());
+					}
 					else numplayer.get(i).numadd(num);
 				}
 			}
@@ -57,7 +65,8 @@ public class final_project {
 					input=sc.next();
 					if(input.equalsIgnoreCase("t")) {
 						int num=drawcard(poker);
-						if(num==1) {
+						if(num==0)break outer;
+						else if(num==1) {
 							System.out.print("目前點數："+numplayer.get(i).getnum()+"\r\n玩家"+i);
 							numplayer.get(i).numadd(one());
 						}
@@ -72,10 +81,16 @@ public class final_project {
 			//莊家抽牌
 			System.out.println();
 			System.out.println("莊家");
-			numplayer.get(0).numadd(drawcard(poker));
-			numplayer.get(0).numadd(drawcard(poker));
+			int num=drawcard(poker);
+			if(num==0)break outer;
+			else numplayer.get(0).numadd(num);
+			num=drawcard(poker);
+			if(num==0)break outer;
+			else numplayer.get(0).numadd(num);
 			if(numplayer.get(0).getnum()<15) {
-				numplayer.get(0).numadd(drawcard(poker));
+				num=drawcard(poker);
+				if(num==0)break outer;
+				else numplayer.get(0).numadd(num);
 			}
 			System.out.println("\r\n莊家點數："+numplayer.get(0).getnum());
 			grade(numplayer);
@@ -115,6 +130,7 @@ public class final_project {
 	
 	//抽單張
 	public static int drawcard(ArrayList<String> poker) {
+		if(poker.isEmpty())return 0;
 		int random=(int)(Math.random()*poker.size());
 		String card=poker.get(random);
 		System.out.println("抽到:"+card);
@@ -167,6 +183,7 @@ public class final_project {
 		return num;
 	}
 	
+	//結算分數
 	public static void finalscore(List<player> numplayer) {
 		int score=0,who=0;
 		for(int i=1;i<numplayer.size();i++) {
