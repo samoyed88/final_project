@@ -32,9 +32,8 @@ public class final_project {
 		}
 		int round=1;//回合數
 		int count=1;//次數
-		for(int i=0;i<52;i++) {
-			System.out.println(drawcard(poker)+" ");
-		}
+		
+		
 		
 		outer:do {
 			//第n輪第一次抽牌
@@ -95,6 +94,18 @@ public class final_project {
 			System.out.println("\r\n莊家點數："+numplayer.get(0).getnum());
 			grade(numplayer);
 			round++;
+			do {
+				System.out.println("第"+round+"局結束，是否開始下一局，請輸入t(是)、f(否)");
+				input=sc.next();
+				if(input.equalsIgnoreCase("t")) {
+					continue;
+				}
+				else if(input.equalsIgnoreCase("f")) {
+					break outer;
+				}
+				else System.out.println("輸入錯誤，請重新輸入");
+			}while(!input.equalsIgnoreCase("f"));
+			
 		}while(!poker.isEmpty());
 		System.out.println();
 		finalscore(numplayer);
@@ -192,6 +203,7 @@ public class final_project {
 				who=i;
 			}
 		}
+		System.out.println("遊戲結束");
 		System.out.println("玩家"+who+"是贏家，分數"+score+"分");
 	}
 }
