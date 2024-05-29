@@ -25,26 +25,23 @@ public class final_project {
 			System.out.println("請輸入遊玩人數");
 			input=sc.next();
 		}
-		players=Integer.parseInt(input);
 		//建立玩家物件 numplayer.get(0)為莊家
+		players=Integer.parseInt(input);
 		for(int i=0;i<=players;i++) {
 			numplayer.add(new player());
 		}
 		int round=1;//回合數
 		int count=1;//次數
 		
-		
-		
 		outer:do {
-			//第n輪第一次抽牌
+			//第round輪第一次及第二次抽牌
 			for(int j=0;j<2;j++) {
-				count=1;
 				System.out.println("第"+(round)+"輪第"+(count++)+"次抽牌");
 				for(int i=1;i<numplayer.size();i++) {
 					System.out.print("第"+i+"位玩家");
-					int num=drawcard(poker);
-					if(num==0)break outer;
-					else if(num==1) {
+					int num=drawcard(poker);//抽牌
+					if(num==0)break outer;//num=0時表示沒牌，因此跳出迴圈
+					else if(num==1) {  //抽到"1"可選擇1或11
 						System.out.print("目前點數："+numplayer.get(i).getnum()+"\r\n玩家"+i);
 						numplayer.get(i).numadd(one());
 					}
@@ -54,6 +51,7 @@ public class final_project {
 			//第n輪第3+次抽牌
 			for(int i=1;i<numplayer.size();i++) {
 				do {
+					//爆牌判斷
 					if(numplayer.get(i).getnum()>21) {
 						System.out.println("玩家"+i+"爆掉了!");
 						break;
@@ -74,10 +72,10 @@ public class final_project {
 					else if(input.equalsIgnoreCase("f")) {
 						System.out.println("結束抽牌");
 					}
-					else System.out.println("輸入錯誤，請重新輸入");
+					else System.out.println("輸入錯誤，請重新輸入");//若輸入"t"、"f"以外的例外處理
 				}while(!input.equalsIgnoreCase("f"));
 			}
-			//莊家抽牌
+			//莊家抽牌(自動化，若抽完<15則繼續抽下一張)
 			System.out.println();
 			System.out.println("莊家");
 			int num=drawcard(poker);
