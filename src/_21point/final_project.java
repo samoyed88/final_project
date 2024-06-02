@@ -11,7 +11,7 @@ public class final_project {
 		creatpoker(poker);
 		String input;
 		int players;
-		List<player> numplayer = new ArrayList<>();
+		List<player> numplayer = new ArrayList<>();//因為玩家數不固定故使用List
 		//開始遊戲
 		do {
 			System.out.println("21點遊戲，請輸入start開始遊戲");
@@ -40,14 +40,23 @@ public class final_project {
 				for(int i=1;i<numplayer.size();i++) {
 					System.out.print("第"+i+"位玩家");
 					int num=drawcard(poker);//抽牌
-					if(num==0)break outer;//num=0時表示沒牌，因此跳出迴圈
-					else if(num==1) {  //抽到"1"可選擇1或11
-						System.out.print("目前點數："+numplayer.get(i).getnum()+"\r\n玩家"+i);
+					if (num == 0)
+						break outer;// num=0時表示沒牌，因此跳出迴圈
+					else if (num == 1) { // 抽到"1"可選擇1或11
+						System.out.print("目前點數：" + numplayer.get(i).getnum() + "\r\n玩家" + i);
 						numplayer.get(i).numadd(one());
-					}
-					else numplayer.get(i).numadd(num);
+					} 
+					else
+						numplayer.get(i).numadd(num);
+				}
+				if(j==0) {
+					System.out.print("莊家抽到:");
+					int num=drawcard(poker);
+					if(num==0)break outer;
+					else numplayer.get(0).numadd(num);
 				}
 			}
+			
 			//第n輪第3+次抽牌
 			for(int i=1;i<numplayer.size();i++) {
 				do {
@@ -76,16 +85,9 @@ public class final_project {
 				}while(!input.equalsIgnoreCase("f"));
 			}
 			//莊家抽牌(自動化，若抽完<15則繼續抽下一張)
-			System.out.println();
-			System.out.println("莊家");
-			int num=drawcard(poker);
-			if(num==0)break outer;
-			else numplayer.get(0).numadd(num);
-			num=drawcard(poker);
-			if(num==0)break outer;
-			else numplayer.get(0).numadd(num);
-			if(numplayer.get(0).getnum()<15) {
-				num=drawcard(poker);
+			while(numplayer.get(0).getnum()<15) {
+				System.out.print("莊家");
+				int num=drawcard(poker);
 				if(num==0)break outer;
 				else numplayer.get(0).numadd(num);
 			}
@@ -96,14 +98,13 @@ public class final_project {
 				System.out.println("第"+round+"局結束，是否開始下一局，請輸入t(是)、f(否)");
 				input=sc.next();
 				if(input.equalsIgnoreCase("t")) {
-					continue;
+					break;
 				}
 				else if(input.equalsIgnoreCase("f")) {
 					break outer;
 				}
 				else System.out.println("輸入錯誤，請重新輸入");
 			}while(!input.equalsIgnoreCase("f"));
-			
 		}while(!poker.isEmpty());
 		System.out.println();
 		finalscore(numplayer);

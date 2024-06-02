@@ -1,12 +1,10 @@
 package _21point;
 
 class player{
-	private int num,score,color,card;
+	private int num,score;
 	player(){
 		this.num=0;
 		this.score=10;
-		this.color=0;
-		this.card=0;
 	}
 	//點數累加(單局)  **特例:A為1or11
 	void numadd(int n){
@@ -42,29 +40,5 @@ class player{
 	//主程式獲取分數
 	int getscore() {
 		return this.score;
-	}
-	//卡牌花色
-	void setcolor(int c) {
-		this.color=c;
-	}
-	//獲取花色
-	String getcolor() {
-		switch(this.color) {
-		case 0:
-			return "C";
-		case 1:
-			return "D";
-		case 2:
-			return "H";
-		case 3:
-			return "S";
-		}
-		return "Error";
-	}
-	void setcard(int c) {
-		this.card=c;
-	}
-	int getcard() {
-		return this.card;
 	}
 }
